@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-06-26
+
+### Fixed
+
+- Re-release to repair the module checksum. The `v0.2.0` tag was inadvertently
+  moved after publication, so its content no longer matched the hash recorded in
+  the Go checksum database, breaking `go build`/`go mod` for downstream consumers.
+  `v0.2.0` should be considered poisoned; use `v0.2.1` or later instead. No API
+  changes from `v0.2.0`.
+
 ## [0.2.0] - 2026-05-25
 
 ### Changed
