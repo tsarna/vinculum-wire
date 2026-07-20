@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-07-19
+
+### Added
+
+- `DecodeError` and `DecodeErrorHook` — a shared description of a failed deserialize
+  (raw bytes, error, format name, best-effort topic, extracted fields, and a bag of
+  per-client identity attributes) and the observer signature receivers invoke with it.
+  Purely additive; nothing in this module produces or consumes them.
+
 ## [0.2.1] - 2026-06-26
 
 ### Fixed
