@@ -11,7 +11,8 @@ type WireFormat interface {
 	// Accepted input types depend on the implementation:
 	//   - json: any JSON-marshalable value (maps, slices, scalars, etc.)
 	//   - string/bytes: string, []byte, numbers, bools
-	//   - auto: string and []byte verbatim; everything else JSON-encoded
+	//   - auto/auto_bytes: string and []byte verbatim; everything else
+	//     JSON-encoded
 	//
 	// []byte input passes through unchanged in all built-in wire formats.
 	Serialize(v any) ([]byte, error)
@@ -30,6 +31,7 @@ type WireFormat interface {
 	//   - string: string
 	//   - bytes: []byte
 	//   - auto: JSON-detected → natural Go types; otherwise string
+	//   - auto_bytes: as auto, but non-JSON yields []byte
 	Deserialize(b []byte) (any, error)
 
 	// Name returns the wire format's identifier (e.g. "json", "auto").
@@ -38,17 +40,19 @@ type WireFormat interface {
 
 // Built-in singletons.
 var (
-	Auto   WireFormat = autoFormat{}
-	JSON   WireFormat = jsonFormat{}
-	String WireFormat = stringFormat{}
-	Bytes  WireFormat = bytesFormat{}
+	Auto      WireFormat = autoFormat{}
+	AutoBytes WireFormat = autoBytesFormat{}
+	JSON      WireFormat = jsonFormat{}
+	String    WireFormat = stringFormat{}
+	Bytes     WireFormat = bytesFormat{}
 )
 
 var builtins = map[string]WireFormat{
-	"auto":   Auto,
-	"json":   JSON,
-	"string": String,
-	"bytes":  Bytes,
+	"auto":       Auto,
+	"auto_bytes": AutoBytes,
+	"json":       JSON,
+	"string":     String,
+	"bytes":      Bytes,
 }
 
 // ByName returns a built-in WireFormat by name, or nil if unknown.

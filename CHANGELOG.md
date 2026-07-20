@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-07-20
+
+### Added
+
+- **`auto_bytes` wire format.** Decodes JSON exactly like `auto`, but returns the
+  undecoded `[]byte` rather than a string when the payload isn't JSON — including when
+  JSON detection turns out to be a false positive. Like `auto`, it never fails to decode.
+
+  It exists for receivers carrying a mix of JSON and opaque binary on one stream, where
+  `auto` would stringify the binary case. That is lossless for storage but wrong in type:
+  a caller wanting to hand the payload to something byte-oriented would have to convert
+  it back.
+
+  As with `bytes`, the result is a copy, so it does not alias a read buffer the caller
+  may reuse. Serialization is identical to `auto`.
+
 ## [0.3.0] - 2026-07-19
 
 ### Added
