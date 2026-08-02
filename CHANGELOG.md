@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-08-02
+
+### Added
+
+- **`IsReservedAttr` — the names a receiver must not use as a `DecodeError.Attrs` key.**
+  `Attrs` is projected onto the hook's eval context alongside the struct's fixed
+  fields, so a key named `raw`, `error`, `wire_format`, `topic`, or `fields` collides
+  with one of them. A consumer drops the colliding key rather than let a client shadow
+  `Topic` or `Raw`, which means the value is silently lost — as happened with
+  `vinculum-mqtt`'s `Attrs["topic"]`, a duplicate of `Topic` that never reached a
+  config. The contract now lives with the type, where a receiver author reads it before
+  choosing a key, and consumers can check against one source rather than a hardcoded
+  list of their own.
+
+  Name a transport identifier after its transport — `mqtt_topic`, `routing_key`,
+  `stream` — and no collision arises in the first place.
+
 ## [0.4.0] - 2026-07-20
 
 ### Added
