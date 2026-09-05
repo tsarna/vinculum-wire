@@ -15,4 +15,8 @@ jobs:
         with:
           go-version-file: go.mod
       - run: go build ./...
-      - run: go test ./...
+      # Under -race: these libraries are concurrent by nature, and a data race
+      # in one produces wrong behaviour under load rather than a failing test.
+      # The detector costs about a second here; `go build` above covers the
+      # non-race compile.
+      - run: go test -race ./...
